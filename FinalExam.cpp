@@ -136,9 +136,13 @@ bool CheckM(int ith,int c[],int n,int C,int mi)
 //           return maximun of tempary[i]*Probability(i) or tempary[n] 
 //           i from 0 to n-1 
 //
+<<<<<<< HEAD
 //input:     int m[] : current solution
 //           double tempary[]  :store the post optimun possibility 
 //           double r[]  : possibability of a device functon properly 
+=======
+//intput:    double tempary[]  :store the post optimun possibility 
+>>>>>>> a2cc3774cefcedc2115705d3b0d4ecf3d6240297
 //           int length
 //           int & ith
 //
@@ -146,17 +150,30 @@ bool CheckM(int ith,int c[],int n,int C,int mi)
 //
 //return:    double the maximun element in p[] 
 ////////////////////////////////////////////////////////////////////////////
+<<<<<<< HEAD
 double Maximun(int m[],double tempary[],double r[],int length,int & ith)
 {
    //store the tempary result 
    double temp=tempary[length];   
    
+=======
+double Maximun(double tempary[],int length,int & ith)
+{
+   //store the tempary result 
+   double temp=tempary[length];   
+
+/*//debug
+  cout<<temp<<endl;
+*///end debug 
+
+>>>>>>> a2cc3774cefcedc2115705d3b0d4ecf3d6240297
    //store optimun result
    ith=0;
 
    //compare one n time  
     for (int j=0;j<length;j++)
     {
+<<<<<<< HEAD
       double prp =Probability(r[j],m[j]);
       if (temp<tempary[j]*prp) 
        {
@@ -165,6 +182,17 @@ double Maximun(int m[],double tempary[],double r[],int length,int & ith)
        }
     } 
     
+=======
+      //get one time operation probability
+      if (temp<tempary[j]) 
+       {
+       temp =tempary[j];
+       ith =j; 
+       }
+    } 
+    if (temp==tempary[length])
+     ith =length; 
+>>>>>>> a2cc3774cefcedc2115705d3b0d4ecf3d6240297
    return temp;
 }  //end func Maximun
 
@@ -266,6 +294,7 @@ void CopyArray(int x[],int copyx[],int length)
 //
 //return :  double P[n-1] : the optimun possibility 
 ////////////////////////////////////////////////////////////
+<<<<<<< HEAD
 double Optimun(int m[],int r[],int c[],double P[],double tempary[],int C,int n,int **postM){
   //to get the post solution 
   int ith=0; 
@@ -286,6 +315,64 @@ double Optimun(int m[],int r[],int c[],double P[],double tempary[],int C,int n,i
     } //end if
   }  //end for
    
+=======
+double Optimun(int m[],double r[],int c[],double P[],double tempary[],int C,int n,int **postM){
+  //to get the post solution 
+  
+  
+  for (int i =0;i<=C;i++)
+  {
+    if(CheckCost(m,c,n,i))
+    {
+      P[i]=TotalP(m,r,n);      
+      for (int j=0;j<n;j++)
+      {
+		m[j]+=1;
+		tempary[j] = TotalP(m,r,n);
+		m[j]-=1;
+      }  //end for 
+
+      //if ith == n ,then is the solution is the same with i-1  
+      tempary[n] =P[i];
+      int ith=0; 
+      P[i] =Maximun(tempary,n,ith);
+      
+      //the same solution with i-1 
+      if(ith==n)
+      {
+       CopyArray(m,postM[i],n);
+      } //end if  
+
+      //ith is c[ith] 
+      else 
+      { 
+        //solution change from i -th plus ci
+        m[ith] =postM[i-ith][ith]+1;
+		//if m change is valid
+		if(CheckCost(m,c,n,i))
+		{
+        CopyArray(m,postM[i],n);
+		}//end if checkcost
+		
+		else 
+		{
+		//change m,postM,P to last state
+		 m[ith]-=1;
+		 CopyArray(m,postM[i],n);
+		 P[i]=TotalP(m,r,n);
+		}
+      } //end else  
+    } //end if
+    //if checkcost is false 
+    else 
+    {
+     P[i] =0;
+     CopyArray(m,postM[i],n);
+    }
+  }  //end for
+  
+  return P[C]; 
+>>>>>>> a2cc3774cefcedc2115705d3b0d4ecf3d6240297
 }  //end func Optimun
 
 void testDrive()
@@ -305,6 +392,7 @@ void testDrive()
   const int C=30;
   
   //store the solution 
+<<<<<<< HEAD
   int m[N]={1,1,1,1}; 
 
   //store the post solution
@@ -320,11 +408,21 @@ int ith2;
 cout<<Maximun(m2,T2,r,5,ith2)<<endl;
 cout<<"ith:"<<ith2<<endl;
 // end debug  
+=======
+  int m[N]={1,2,4,2}; 
+
+  //store the post solution
+  double tempary[N+1]={0};
+>>>>>>> a2cc3774cefcedc2115705d3b0d4ecf3d6240297
 
   //tempary parameter only to store possible solution 
   int **postM;
   
+<<<<<<< HEAD
   //dynamic allocate the memory and initial tempary to zero
+=======
+  //dynamic allocate the memory and initial tempary to oneo
+>>>>>>> a2cc3774cefcedc2115705d3b0d4ecf3d6240297
   postM =(int**)malloc(sizeof(int*)*(C+1));
   for (int i=0;i<(C+1);i++)
   {
@@ -333,6 +431,7 @@ cout<<"ith:"<<ith2<<endl;
   for (int i=0;i<(C+1);i++)
    for (int j=0;j<N;j++)
    {
+<<<<<<< HEAD
     postM[i][j]=0;
    }  
 
@@ -345,6 +444,25 @@ cout<<"ith:"<<ith2<<endl;
   for (int i=0;i<=C;i++)
   {
    cout<<"C["<<i<<"] :"<<_P[i]<<"   ";
+=======
+    postM[i][j]=1;
+   }  
+
+  //int p[] to the optimun possibility
+  double P[C+1]={0}; 
+  cout<<TotalP(m,r,N)<<endl;
+ /* 
+  Optimun(m,r,c,P,tempary,C,N,postM);
+
+  //display the result 
+  for (int i=0;i<=C;i++)
+  {
+   cout<<"P["<<i<<"] :"<<P[i]<<"     ";
+    cout<<"postM["<<i<<"] : ";
+   for (int j=0;j<N;j++)
+    cout<<postM[i][j]<<" ";
+   cout<<endl;
+>>>>>>> a2cc3774cefcedc2115705d3b0d4ecf3d6240297
   }
    cout<<endl;
   
@@ -354,8 +472,19 @@ cout<<"ith:"<<ith2<<endl;
     cout<<"m["<<j<<"] :"<<m[j]<<"   ";
   } 
    cout<<endl; 
+<<<<<<< HEAD
 */
 
+=======
+
+  //display the optimun solution 
+  for (int j=0;j<N;j++)
+  {
+    cout<<"u["<<j<<"] :"<<MaxU(j,c,N,C)<<"   ";
+  } 
+   cout<<endl; 
+*/
+>>>>>>> a2cc3774cefcedc2115705d3b0d4ecf3d6240297
   //free the memory
   for(int i=0;i<C+1;i++)
   {
