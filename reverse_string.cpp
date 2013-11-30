@@ -20,13 +20,15 @@ using namespace std;
     end++;
    }
    end--;
-   while(p<end) {
+   while(q<end) {
      if(*q == ' ') {
-      reverse(p,q);
-      p=q;
+      reverse(p,q-1);
+      p=q+1;
      } 
      q++;
    }
+  reverse(p,q);
+  reverse(str,end); 
   }
 
   void reverse(char* start, char* end) {
@@ -39,7 +41,7 @@ using namespace std;
   }
 
   int main() {
-    char str[] = "a b";   
+    char str[] = "this is a ball";   
     reverseSentence(str);
     cout<<str<<"\n";
     return 1;
