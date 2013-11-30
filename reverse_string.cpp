@@ -11,23 +11,25 @@
 
 using namespace std;
 
-  void reverse(char* str) {
-   char tmp;
-   char* end =str;
-
-   while(*end) {
-     end++;
+  void reverse(char* start, char* end); 
+  void reverseSentence(char* str) {
+   char* end =str; 
+   char* p=str;
+   char* q=str; 
+   while(*end){
+    end++;
    }
    end--;
-
-   while(str<end) {
-      tmp = *str;
-      *str++= *end;
-      *end--= tmp;    
-   } 
+   while(p<end) {
+     if(*q == ' ') {
+      reverse(p,q);
+      p=q;
+     } 
+     q++;
+   }
   }
 
-  void testPrint(char* start, char* end) {
+  void reverse(char* start, char* end) {
     char tmp;
     while(start<end){
      tmp= *start; 
@@ -37,8 +39,8 @@ using namespace std;
   }
 
   int main() {
-    char str[] = "12345";   
-    testPrint(str,str+4);
+    char str[] = "a b";   
+    reverseSentence(str);
     cout<<str<<"\n";
     return 1;
   }
