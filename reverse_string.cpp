@@ -27,13 +27,19 @@ using namespace std;
    } 
   }
 
+  void testPrint(char* start, char* end) {
+    char tmp;
+    while(start<end){
+     tmp= *start; 
+     *start++ = *end; 
+     *end-- = tmp;
+    }
+  }
 
   int main() {
-    char str[] = "test";   
-    cout << str <<"\n";
-    reverse(str);
-    cout << str <<"\n";
-
+    char str[] = "12345";   
+    testPrint(str,str+4);
+    cout<<str<<"\n";
     return 1;
   }
 
