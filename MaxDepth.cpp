@@ -1,4 +1,18 @@
+/*
+  problem: give binary tree, find max depth 
+  
+  approach: DFS to get leaf of tree and compute the max depth
+            the reason to use this is because stack only store number of 
+            node in one branch is the depth 
+           
+            start from left to search right, will never duplicate 
+            
+            use extra data structure stack to store visited nodes instead of using flag to record visited 
+  
+  anylysis: T=O{n)
+*/
 #include <iostream>
+#include <stack>
 
 using namespace std;
 
@@ -9,43 +23,51 @@ struct TreeNode {
     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
   };
 
-class stack{
-   struct TreeNode * top;
-   public:
-     stack();
-     void push(int);
-     int pop();
-     bool isEmpty();
-     void display();
-};
-
-stack::stack() {
-   top = NULL;
-} 
-
-void stack::push(int data) {
-   TreeNode *p;
-   if((p=(TreeNode*)malloc(sizeof(TreeNode)))==NULL) {
-	cout<<"memory exhausted";
-        exit(0);
-    }
-   p = new TreeNode(0);
-   
-} 
-int pop() {
-
-}
- 
-bool isEmpty() {
-
-}
-class Solution 
-{
-
-
 int DFS(TreeNode *root) {
+
  if (root==NULL) return 0;
+ stack<TreeNode*> s;
  int maxDepth=0;
-  
+ s.push(root); 
+ TreeNode *prev =NULL;
+
+ while(!s.empty()) {
+  TreeNode *curr = s.top();
+  if(!prev || prev->left == curr || prev->right ==curr) { // is child node of current node
+    if(curr->left)
+      s.push(curr->left); 
+    else if(curr->right)
+      s.push(curr->right);
+   } else if (curr->left == prev) { //return from child node and continue search right node 
+     if (curr->right)
+       s.push(curr->right);
+   } else {
+     s.pop();
+   } 
+   prev = curr;
+   if(s.size() > maxDepth)
+     maxDepth = s.size();
+  }
+
+  return maxDepth;
  }
-};
+
+//write a recursive version
+
+int main() {
+  TreeNode *a;
+  TreeNode *b;
+  TreeNode *c;
+
+  a= new TreeNode(1);
+  b= new TreeNode(2);
+  c= new TreeNode(3);
+
+  a->left=b;
+  a->right=c;
+
+  cout<<"Max depth: "<<DFS(a)<<"\n";
+return 1;
+}
+
+
