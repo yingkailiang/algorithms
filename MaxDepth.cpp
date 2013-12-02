@@ -9,7 +9,7 @@
             
             use extra data structure stack to store visited nodes instead of using flag to record visited 
   
-  anylysis: T=O{n)
+  anylysis: T=O(E) space=O(V)
 */
 #include <iostream>
 #include <stack>
@@ -22,6 +22,10 @@ struct TreeNode {
     TreeNode *right;
     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
   };
+
+/*
+ * non-recursive sulotion 
+ */
 
 int DFS(TreeNode *root) {
 
@@ -52,21 +56,67 @@ int DFS(TreeNode *root) {
   return maxDepth;
  }
 
-//write a recursive version and look <<algorithms>> to see what kind of problem is solve by BFS
+/*
+ * recursive DFS
+ */
+TreeNode *prev= NULL;
+int maxDepth=0;
+int depth=0;
+int DFSR(TreeNode *curr){
+  if(!prev || prev->left==curr || prev->right==curr) {
+   if(curr->left){
+     depth++; 
+   if(depth > maxDepth)
+     maxDepth = depth; 
+
+     DFSR(curr->left);
+   }
+   else if (curr->right) {
+     depth++; 
+   if(depth > maxDepth)
+     maxDepth = depth; 
+
+     DFSR(curr->right);
+   } 
+  } else if(curr->left == prev) {
+    if(curr->right) {
+     depth++;
+
+   if(depth > maxDepth)
+     maxDepth = depth; 
+
+     DFSR(curr->right);
+    }
+  } else {
+     depth--;
+  }
+  prev= curr;
+
+   if(depth > maxDepth)
+     maxDepth = depth; 
+
+ return maxDepth; //??how recursive func return value, have not fully recursive find out 
+                  //terminate point of recursive   
+}
+
 
 int main() {
   TreeNode *a;
   TreeNode *b;
   TreeNode *c;
+  TreeNode *d;
+  
 
   a= new TreeNode(1);
   b= new TreeNode(2);
   c= new TreeNode(3);
+  d= new TreeNode(4);
 
   a->left=b;
   a->right=c;
+  c->left=d;
 
-  cout<<"Max depth: "<<DFS(a)<<"\n";
+  cout<<"Max depth: "<<DFSR(a)<<"\n";
 return 1;
 }
 
