@@ -110,7 +110,6 @@ int main() {
 
   a->left=b;
   a->right=c;
-  c->left=d;
 
   cout<<"Max depth: "<<DFSR(a)<<"\n";
 return 1;
