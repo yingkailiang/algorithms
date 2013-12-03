@@ -61,36 +61,32 @@ int DFS(TreeNode *root) {
  */
 TreeNode *prev= NULL;
 int maxDepth=0;
-int depth=0;
+int depth=1;
 int DFSR(TreeNode *curr){
   if(!prev || prev->left==curr || prev->right==curr) {
-   if(curr->left){
-     depth++; 
-   if(depth > maxDepth)
-     maxDepth = depth; 
-
-     DFSR(curr->left);
+    if(curr->left){
+        depth++; 
+      if(depth > maxDepth)
+        maxDepth = depth; 
+      DFSR(curr->left);
    }
-   else if (curr->right) {
-     depth++; 
-   if(depth > maxDepth)
-     maxDepth = depth; 
-
-     DFSR(curr->right);
+    if (curr->right) {
+      depth++; 
+      if(depth > maxDepth)
+        maxDepth = depth; 
+      DFSR(curr->right);
    } 
   } else if(curr->left == prev) {
-    if(curr->right) {
-     depth++;
-
-   if(depth > maxDepth)
-     maxDepth = depth; 
-
+     if(curr->right) {
+        depth++;
+     if(depth > maxDepth)
+        maxDepth = depth; 
      DFSR(curr->right);
     }
   } else {
      depth--;
   }
-  prev= curr;
+  prev= curr; 
 
    if(depth > maxDepth)
      maxDepth = depth; 
