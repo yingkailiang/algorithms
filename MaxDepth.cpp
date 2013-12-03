@@ -63,31 +63,32 @@ TreeNode *prev= NULL;
 int maxDepth=0;
 int depth=1;
 int DFSR(TreeNode *curr){
+  if(!curr && maxDepth==0)
+    return 0;
   if(!prev || prev->left==curr || prev->right==curr) {
     if(curr->left){
+      DFSR(curr->left);
         depth++; 
       if(depth > maxDepth)
         maxDepth = depth; 
-      DFSR(curr->left);
    }
     if (curr->right) {
+      DFSR(curr->right);
       depth++; 
       if(depth > maxDepth)
         maxDepth = depth; 
-      DFSR(curr->right);
    } 
   } else if(curr->left == prev) {
      if(curr->right) {
+     DFSR(curr->right);
         depth++;
      if(depth > maxDepth)
         maxDepth = depth; 
-     DFSR(curr->right);
     }
   } else {
      depth--;
   }
   prev= curr; 
-
    if(depth > maxDepth)
      maxDepth = depth; 
 
@@ -101,15 +102,19 @@ int main() {
   TreeNode *b;
   TreeNode *c;
   TreeNode *d;
+  TreeNode *e;
   
-
   a= new TreeNode(1);
   b= new TreeNode(2);
   c= new TreeNode(3);
   d= new TreeNode(4);
+  e= new TreeNode(5);
 
   a->left=b;
   a->right=c;
+  c->left=d;
+  c->right=e;
+  
 
   cout<<"Max depth: "<<DFSR(a)<<"\n";
 return 1;
