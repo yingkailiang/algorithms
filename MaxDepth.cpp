@@ -66,14 +66,14 @@ int DFSR(TreeNode *curr){
   if(!curr && maxDepth==0)
     return 0;
   if(!prev || prev->left==curr || prev->right==curr) {
-    if(curr->left){
-      DFSR(curr->left);
+    if(curr->right){
+      DFSR(curr->right);
         depth++; 
       if(depth > maxDepth)
         maxDepth = depth; 
    }
-    if (curr->right) {
-      DFSR(curr->right);
+    if (curr->left) {
+      DFSR(curr->left);
       depth++; 
       if(depth > maxDepth)
         maxDepth = depth; 
@@ -92,8 +92,7 @@ int DFSR(TreeNode *curr){
    if(depth > maxDepth)
      maxDepth = depth; 
 
- return maxDepth; //??how recursive func return value, have not fully recursive find out 
-                  //terminate point of recursive   
+ return maxDepth; 
 }
 
 
@@ -112,8 +111,8 @@ int main() {
 
   a->left=b;
   a->right=c;
-  c->left=d;
-  c->right=e;
+  b->right=d;
+  b->left=e;
   
 
   cout<<"Max depth: "<<DFSR(a)<<"\n";
