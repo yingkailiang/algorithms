@@ -17,14 +17,16 @@ vector<vector<int> > generate(int numRows) {
         vector<vector<int> > vt;
         int n;
         if(numRows == 0) return vt;
-        vt[0].push_back(1);
+        vt.resize(numRows);
+        vt[0][0]=0;
         if(numRows == 1) return vt;
-        for(int m=1;m<=numRows;m++){
-            vt[m].push_back(1);
-            for(n=1;n<numRows-1;n++){
-                vt[m].push_back(vt[m-1][n-1]+vt[m-1][n]);
+        for(int m=1;m<numRows;m++){
+            vt[m].resize(m+1);
+            vt[m][0]=1;
+            for(n=1;n<m;n++){
+                vt[m][n]=vt[m-1][n-1]+vt[m-1][n];
             }
-            vt[m].push_back(1);
+            vt[m][m]=1;
         }
         return vt;
- }
+    }
